@@ -1,3 +1,5 @@
+Link PWS: https://faris-huda-inisportstation.pbp.cs.ui.ac.id/
+
 1. Implementasi checklist di atas:
     - Membuat direktori/folder "ini_sportstation" yang akan digunakan sebagai direktori utama dari project ini
     - Membuat virtual environment

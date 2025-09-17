@@ -11,6 +11,7 @@ class Product(models.Model):
         ('raket', 'Raket'),
     ]
     
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     price = models.IntegerField(default=0, null=False, validators=[MinValueValidator(0)])
     description = models.TextField()
@@ -19,4 +20,4 @@ class Product(models.Model):
     is_featured = models.BooleanField(default=False)
     
     def __str__(self):
-        return self.name
+        return self.id

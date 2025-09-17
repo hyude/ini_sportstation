@@ -1,5 +1,6 @@
 Link PWS: https://faris-huda-inisportstation.pbp.cs.ui.ac.id/
 
+# Tugas 2
 1. Implementasi checklist di atas:
     - Membuat direktori/folder "ini_sportstation" yang akan digunakan sebagai direktori utama dari project ini
     - Membuat virtual environment
@@ -68,3 +69,69 @@ Link PWS: https://faris-huda-inisportstation.pbp.cs.ui.ac.id/
 
 6. Feedback untuk asisten dosen di Tutorial 1
     - Tutorial 1 sudah jelas dan asisten dosen sudah responsif jika ada isu yang bermunculan. Terima kasih banyak kakak asdos sekalian dan tetap semangat.
+
+# Tugas 3
+1. Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
+    - Memastikan data sampai ke pihak yang tepat (siapa yang berhak, kapan harus dikirim, dalam format apa, dan sebagainya).
+    - Menjamin integritas dan keandalan (data tidak hilang di tengah jalan, tidak korup saat berpindah, bisa di-retry jika ada kegagalan jaringan). Misalnya menggunakan HTTP/HTTPS.
+    - Mempercepat kinerjan dan efisiensi. Misalkan dengan melakukan caching supaya data yang sering diminta tidak perlu diambil ulang, melakukan chunking agar file besar tidak menahan seluruh sistem, dan mengoptimalkan bandwidth.
+    - Membuat pengiriman data lebih aman. Misalkan dengan mengenkripsi data selama transit (TLS) dan memverifikasi identitas pengirim.
+    - Memudahakan skalabilitas dan integrasi. Platform lebih mudah untuk berintegrasi dengan microservices lain, third party API, perangkat IoT, dan lainnya.
+
+2. Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
+    - Menurut saya pribadi, lebih baik JSON karena secara sintaks lebih enak dilihat dibanding XML.
+    - Alasan JSON lebih populer dibanding XML:
+        - Sintaks JSON lebih sederhana dan ringkas. JSON hanya memakai tanda "{}", "[]", ":", dan ",", sedangkan XML memiliki banyak tag pembuka dan penutup. Akibatnya, ukuran dokumen XML lebih besar dibanding JSON.
+        - JSON memiliki dukungan bawaaan di JS dan bahasa modern. Oleh karena JSON berasal dari JS, JSON dapat dipakai langsung tanpa library tambahan. Selain itu, hampir semua bahasa populer seperti Python, Java, PHP, Go, dan lainnya memiliki parser JSON yang ringan dan cepat, sedangkan XML butuh parser yang lebih kompleks.
+        - Ukuran data JSON lebih kecil akibat sintaks yang lebih sederhana dan ringkas.
+        - Proses serialisasi dan deserialisasi lebih cepat karena secara alami struktur JSON cocok dengan object atau dictionary, tidak seperti XML yang seperti tree.
+        - Lebih cocok untuk API modern.
+        - Mudah saat debugging karena lebih enak dilihat di editor atau browser.
+
+3. Jelaskan fungsi dari method is_valid() pada form Django dan mengapa kita membutuhkan method tersebut?
+    - Fungsi is_valid() pada form Django:
+        - Menjalankan proses validasi yang mengecek apakah setiap field yang wajib diisi sudah terisi, tipe data tiap field sesuai, dan menjalankan validator tambahan sesuai yang didefinisikan pada model.
+        - Mengisi atribut cleaned_data pada dictionary form.cleaned_data jika validasi sukses. cleaned_data berisi data yang sudah siap dipakai karena sudah dikonversi ke tipe Python yang tepat.
+        - Mendeteksi kesalahan (error) jika ada field yang tidak valid dan menyimpannya di form.errors dan dapat ditampilkan ke pengguna.
+    - Mengapa method tersebut dibutuhkan?
+        - Tanpa is_valid(), kita tidak tahu apakah data yang dikirim user lengkap, sesuai tipe, dan lolos aturan (validator).
+        - Misalkan kita memanggil form.save() tanpa is_valid(), data yang disimpan bisa berupa data yang kosong atau data yang salah. Akibatnya, dapat terjadi error runtime dan membuka celah keamanan seperti injeksi data.
+
+4. Mengapa kita membutuhkan csrf_token saat membuat form di Django? Apa yang dapat terjadi jika kita tidak menambahkan csrf_token pada form Django? Bagaimana hal tersebut dapat dimanfaatkan oleh penyerang?
+    - Alasan dibutuhkannya csrf_token saat membuat form di Django:
+        CSRF adalah serangan di mana penyerang memanfaatkan sesi login korban untuk mengirimkan request berbahaya. Dengan csrf_token, setiap request POST benar-benar berasal dari halaman server, bukan situs selainnya. Jika token tidak sesuai, Django akan mengembalikan 403 Forbidden dan menolak request.
+    - Apa yang terjadi jika csrf_token tidak ditambahkan?
+        - Jika middleware CSRF diaktifkan, Django akan menolak request POST tanpa token dan user akan mendapatkan error "CSRF verification failed".
+        - Jika middleware CSRF dimatikan (atau dengan bypass), form menjadi rawan diserang.
+    - Bagaimana penyerang memanfaatkan tidak ditambahkannya csrf_token pada form?
+        - Misalkan ada suatu form tanpa CSRF protection.
+        - Penyerang dapat membuat site berisi script yang akan mengirimkan suatu nilai ke form tersebut (submit).
+        - Korban yang sedang login ke site kita juga membuka halaman penyerang.
+        - Browser otomatis mengirim cookie session korban ke server kita bersama form yang dikirim oleh penyerang.
+        - Karena tidak ada token unik, server memproses kedua form tersebut karena form tersebut dianggap sah.
+
+5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+    - Saya membuat direktori templates pada root folder dan membuat base.html. base.html akan berfungsi sebagai kePOrangka umum untuk halaman web lain dalam proyek saya. Saya juga menambahkannya ke TEMPLATES pada settings.py.
+    - Saya mengubah main.html pada main/templates/ agar menggunakan template base.html dengan meng-extend base.html ke main.html menggunakan {% extends 'base.html' %}.
+    - Saya membuat forms.py yang akan digunakan sebagai form. Di sana saya membuat class ProductForm yang berisi class Meta yang berisi model berupa Product dan fields sesuai dengan atribut Product.
+    - Pada views.py, saya membuat fungsi create_product() dan show_product() dan menambahkan path-nya pada urls.py. Saya juga mengupdate blok content pada main.html di main/templates/ agar dapat menampilkan data product dan button "Add Product".
+    - Pada main/templates/, saya menambahkan 2 file baru yaitu create_product.html untuk membuat produk baru dan product_details.html untuk menampilkan detail dari masing-masing produk. Saya juga menambahkan URL deployment PWS pada CSRF_TRUSTED_ORIGINS.
+    -  Pada views.py, saya membuat 4 fungsi yaitu show_xml() yang mengembalikan seluruh data dalam bentuk XML, show_json() yang mengembalikan seluruh data dalam bentuk JSON, show_xml_by_id() yang mengembalikan data sesuai ID dalam bentuk XML, dan show_json_by_id() yang mengembalikan data sesuai ID dalam bentuk JSON.
+    - Setelah 4 fungsi tersebut dibuat, saya menambahkan path dari masing-masing fungsi tersebut pada urls.py
+
+6. Apakah ada feedback untuk asdos di tutorial 2 yang sudah kalian kerjakan?
+    Asdos cepat menanggapi dan sangat membantu saya waktu debugging. Terima kasih banyak kak.
+
+7. Mengakses keempat URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman, dan menambahkannya ke dalam README.md.
+
+    - Screenshot POSTMAN untuk fungsi show_xml()
+    ![Screenshot POSTMAN untuk fungsi show_xml()](assets/postman_xml.jpg)
+
+    - Screenshot POSTMAN untuk fungsi show_json()
+    ![Screenshot POSTMAN untuk fungsi show_json()](assets/postman_json.jpg)
+
+    - Screenshot POSTMAN untuk fungsi show_xml_by_id()
+    ![Screenshot POSTMAN untuk fungsi show_xml_by_id()](assets/postman_xml_id.jpg)
+
+    - Screenshot POSTMAN untuk fungsi show_json_by_id()
+    ![Screenshot POSTMAN untuk fungsi show_json_by_id()](assets/postman_json_id.jpg)

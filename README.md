@@ -111,7 +111,7 @@ Link PWS: https://faris-huda-inisportstation.pbp.cs.ui.ac.id/
         - Karena tidak ada token unik, server memproses kedua form tersebut karena form tersebut dianggap sah.
 
 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
-    - Saya membuat direktori templates pada root folder dan membuat base.html. base.html akan berfungsi sebagai kePOrangka umum untuk halaman web lain dalam proyek saya. Saya juga menambahkannya ke TEMPLATES pada settings.py.
+    - Saya membuat direktori templates pada root folder dan membuat base.html. base.html akan berfungsi sebagai kerangka umum untuk halaman web lain dalam proyek saya. Saya juga menambahkannya ke TEMPLATES pada settings.py.
     - Saya mengubah main.html pada main/templates/ agar menggunakan template base.html dengan meng-extend base.html ke main.html menggunakan {% extends 'base.html' %}.
     - Saya membuat forms.py yang akan digunakan sebagai form. Di sana saya membuat class ProductForm yang berisi class Meta yang berisi model berupa Product dan fields sesuai dengan atribut Product.
     - Pada views.py, saya membuat fungsi create_product() dan show_product() dan menambahkan path-nya pada urls.py. Saya juga mengupdate blok content pada main.html di main/templates/ agar dapat menampilkan data product dan button "Add Product".
@@ -256,3 +256,100 @@ Menghubungan model `Product` dengan `User`:
 - Memodifikasi `name` pada `context` agar sesuai dengan username dari user pada request.
 - Menambahkan button dengan filter "my" dan "all" pada `main.html`
 - Memodifikasi `news_detail.html` agar menampilkan nama penjual
+
+# Tugas 5
+## Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+Urutan prioritas pengambilan selector CSS diurutkan dari paling tinggi ke paling rendah:
+- Tingkatan sumber:
+    1. Inline style: Style langsung pada elemen (contohnya adalah `<div style="color: blue">`)
+    2. Internal CSS: Style dalam `<style>` di dalam HTML
+    3. External CSS: Style yang ditulis dalam file external (misal `global.css` pada tugas)
+
+- Deklarasi `!important` pada suatu selector. Urutan prioritasnya adalah:
+    1. Inline
+    2. ID
+    3. Class
+    4. Element
+
+- Jika tidak ada `!important` pada selector tersebut, specifity selector dihitung dalam poin. Nilai specifity yang lebih tinggi akan diprioritaskan. Nilai specifity dari tiap selector adalah:
+    1. Inline style: 1000 poin
+    2. ID selector `#id`: 100 poin
+    3. Class selector `.class`:, attribute selector `[attr]`, dan pseudo-class (misal `:hover`): 10 poin
+    4. Element selector (misal `div`) dan pseudo-element (misal `::before`): 1 poin
+    5. Universal selector (`*`): 0 poin
+
+- Jika specifity sama, maka yang menjadi prioritas adalah yang ditulis terakhir (atau yang paling terupdate / paling bawah di suatu kode)
+
+## Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design, serta jelaskan mengapa!
+Alasan kenapa responsive design penting pada pengembangan aplikasi web:
+1. Multi-device era dimana pengguna device saat ini bermacam-macam. Ada beberapa orang yang biasa menggunakan PC atau laptop, ada juga yang lebih senang menggunakan HP.
+2. Membuat User Experience yang rapi agar meningkatkan kenyamanan pengguna
+3. Search Engine Optimization (SEO) agar website lebih terpapar search engine
+4. Satu kode CSS/HTML bisa digunakan untuk semua perangkat sehingga tidak perlu membuat domain baru (misal `m.namadomain.com`)
+5. Mempertahankan retensi pengguna dengan tampilan yang menarik
+
+Contoh aplikasi yang sudah menerapkan responsive design:
+1. Instagram (instagram.com)
+2. Twitter (twitter.com atau X.com)
+3. Tokopedia (tokopedia.com)
+
+Contoh aplikasi yang belum menerapkan responsive design:
+1. SIAKNG (academic.ui.ac.id)
+    - Design tidak responsif untuk mobile device seperti HP
+    - Tampilan kurang menarik
+2. Aren (aren.cs.ui.ac.id)
+    - Design tidak responsif untuk mobile device seperti HP
+    - Tampilan kurang menarik
+
+## Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
+Margin adalah bagian paling luar dari suatu elemen yang berada di luar border. Margin berfungsi sebagai jarak antar suatu elemen dengan elemen lainnya dan bersifat transparan.
+
+Border adalah bingkai (atau garis tepi) di sekitar elemen. Border berada di antara margin dan padding. Border dapat diatur warnanya, ketebalannya, dan style-nya (misal sudut melengkung).
+
+Padding adalah ruang di dalam elemen yang menjadi jarak antara isi/konten dengan border. Padding berfungsi agar isi dari suatu elemen tidak mepet ke border. Padding bersifat transparan.
+
+Misalkan saya ingin membuat suatu box yang di dalamnya ada tulisan "Mahasiswa PBP". Tulisan tersebut saya buat tidak mepet dengan border, maka saya bisa membuat class box dengan ketentuan: margin 10px; border 2px; padding 10px; Jika saya membuat box serupa dan meletakkannya, maka akan ada jarak diantara mereka sebesar 20 px (untuk kasus margin horizontal) atau 10 px (untuk kasus margin vertikal). Box tersebut juga memiliki border dengan ketebalan 2 px dan jarak tulisan "Mahasiswa PBP" dengan border adalah 10 px. Contoh dokumen HTML-nya adalah sebagai berikut:
+
+```c
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.box {
+  margin: 10px;     // Jarak antar elemen
+  border: 2px;      // Ketebalan border
+  padding: 10px;    // Jarak tulisan dengan border
+}
+</style>
+</head>
+<body>
+  <div class="box">Mahasiswa PBP</div>
+</body>
+</html>
+```
+
+## Jelaskan konsep flex box dan grid layout beserta kegunaannya!
+Flexbox (Flexible Box Layout) dirancang untuk mengatur elemen dalam satu dimensi, baik dalam bentuk baris (row) maupun kolo (column). Elemen anak (disebut flex items) secara otomatis menyesuaikan dengan ukuran ruang yang disediakan oleh flexbox. Flexbox berguna untuk layout yang bersifat linear seperti navbar, menu, dan lainnya.
+
+Grid layout dirancang untuk layout dua dimensi yaitu baris dan kolom sekaligus. Oleh karena ituu, grid layout lebih presisi dibanding flexbox untuk membuat struktur halaman yang lebih kompleks. Grid layout berguna untuk membuat layout halaman secara keseluruhan (header, sidebar, content, dan footer) seperti dashboard, layout halaman utama, dan lainnya.
+
+## Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+1. Menambahkan tag `<meta name="viewport>` agar halaman web dapat mengikuti ukuran dan perilaku device.
+2. Menambahkan Tailwind ke aplikasi dengan `<script>`
+3. Menambahkan fitur `edit_product` pada `views.py` yang berfungsi untuk meng-edit product yang sudah ada
+4. Menambahkan berkas `edit_product.html` pada `main/templates` yang digunakan sebagai halaman edit product
+5. Import fungsi `edit_product` dan menambahkan path-nya ke `urls.py`
+6. Menambahkan tombol edit di `main.html`
+7. Menambahkan fitur `delete_product` pada `views.py` yang berfungsi untuk men-delete product yang sudah ada
+8. Import fungsi `delete_product` dan menambahkan path-nya ke `urls.py`
+9. Menambahkan tombol delete pada `main.html`
+10. Mengonfigurasi static files dengan menambahkan `django.middleware.security.SecurityMiddleware` pada `MIDDLEWARE` di `settings.py`
+11. Mengonfigurasi lokasi dari static files bergantung pada `DEBUG` atau tidak di `settings.py`
+12. Menambahkan `global.css` yang berfungsi sebagai kelas style CSS di `static/css`
+13. Menghubungkan `global.css` ke Tailwind pada `base.html`
+14. Menambahkan custom styling di `global.css`
+15. Styling login, register, create product, edit product, dan detail product pada `login.html`, `register.html`, `create_product.html`, `edit_product.html`, dan `product_details.html` secara berurutan.
+16. Membuat kartu product `card_product.html` dan menambahkan button di edit dan delete pada setiap product
+17. Styling halaman daftar product dengan menambahkan `card_product.html` ke dan `no-news.png` pada `static/image` ke `base.html`. Jika belum ada product, halaman daftar product akan menampilkan gambar bahwa belum ada product yang terdaftar. Jika sudah ada, product akan ditampilkan dalam bentuk card product.
+18. Membuat navbar `navbar.html` dan styling navbar tersebut agar responsif.
+19. Cek apakah ada error atau tidak

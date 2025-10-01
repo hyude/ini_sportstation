@@ -34,7 +34,7 @@
     </h3>
 
     <p class="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4">
-      {{ product.description|truncatewords:20 }}
+      Rp. {{ product.price }}
     </p>
 
     <!-- Action Buttons -->
@@ -45,10 +45,10 @@
         </a>
         <div class="flex space-x-2">
           <a href="{% url 'main:edit_product' product.id %}" class="text-gray-600 hover:text-gray-700 text-sm transition-colors">
-            Edit
+            Edit Product
           </a>
           <a href="{% url 'main:delete_product' product.id %}" class="text-red-600 hover:text-red-700 text-sm transition-colors">
-            Delete
+            Delete Product
           </a>
         </div>
       </div>

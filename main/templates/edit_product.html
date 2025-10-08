@@ -54,4 +54,31 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.querySelector("form").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch(window.location.href, {
+        method: "POST",
+        headers: { "X-Requested-With": "XMLHttpRequest" },
+        body: formData,
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        alert("✅ " + data.message);
+        window.location.href = "{% url 'main:show_main' %}";
+      } else {
+        alert("❌ " + data.message);
+      }
+    } catch (err) {
+      alert("⚠️ Error updating product.");
+    }
+  });
+</script>
+
 {% endblock %}

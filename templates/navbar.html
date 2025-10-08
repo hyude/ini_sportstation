@@ -1,97 +1,168 @@
 <nav class="fixed top-0 left-0 w-full bg-white border-b border-gray-200 shadow-sm z-50">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        <div class="flex items-center">
-          <h1 class="text-xl font-semibold text-gray-900">
-            <span class="text-green-600">Ini</span> Sportstation
-          </h1>
-        </div>
-        
-        <!-- Desktop Navigation -->
-        <div class="hidden md:flex items-center space-x-8">
-          <a href="/" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
-            Home
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center">
+        <h1 class="text-xl font-semibold text-gray-900">
+          <span class="text-green-600">Ini</span> Sportstation
+        </h1>
+      </div>
+      
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="/" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+          Home
+        </a>
+        <a href="{% url 'main:create_product' %}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+          Create Product
+        </a>
+      </div>
+      
+      <!-- Desktop User Section -->
+      <div class="hidden md:flex items-center space-x-6">
+        {% if user.is_authenticated %}
+          <div class="text-right">
+            <div class="text-sm font-medium text-gray-900">{{ name|default:user.username }}</div>
+            <div class="text-xs text-gray-500">{{ npm|default:"Student" }} - {{ class|default:"Class" }}</div>
+          </div>
+          <a id="logout-btn" href="{% url 'main:logout' %}" 
+            class="text-red-600 hover:text-red-700 font-medium transition-colors">
+            Logout
           </a>
-          <a href="{% url 'main:create_product' %}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
-            Create Product
+        {% else %}
+          <a href="{% url 'main:login' %}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+            Login
           </a>
-        </div>
-        
-        <!-- Desktop User Section -->
-        <div class="hidden md:flex items-center space-x-6">
-          {% if user.is_authenticated %}
-            <div class="text-right">
-              <div class="text-sm font-medium text-gray-900">{{ name|default:user.username }}</div>
-              <div class="text-xs text-gray-500">{{ npm|default:"Student" }} - {{ class|default:"Class" }}</div>
-            </div>
-            <a href="{% url 'main:logout' %}" class="text-red-600 hover:text-red-700 font-medium transition-colors">
-              Logout
-            </a>
-          {% else %}
-            <a href="{% url 'main:login' %}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+          <a href="{% url 'main:register' %}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-medium transition-colors">
+            Register
+          </a>
+        {% endif %}
+      </div>
+      
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden flex items-center">
+        <button class="mobile-menu-button p-2 text-gray-600 hover:text-gray-900 transition-colors">
+          <span class="sr-only">Open menu</span>
+          <div class="w-6 h-6 flex flex-col justify-center items-center">
+            <span class="bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm"></span>
+            <span class="bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-0.5"></span>
+            <span class="bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm"></span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Mobile Menu -->
+  <div class="mobile-menu hidden md:hidden bg-white border-t border-gray-200">
+    <div class="px-6 py-4 space-y-4">
+      <!-- Mobile Navigation Links -->
+      <div class="space-y-1">
+        <a href="/" class="block text-gray-600 hover:text-gray-900 font-medium py-3 transition-colors">
+          Home
+        </a>
+        <a href="{% url 'main:create_product' %}" class="block text-gray-600 hover:text-gray-900 font-medium py-3 transition-colors">
+          Create Product
+        </a>
+      </div>
+      
+      <!-- Mobile User Section -->
+      <div class="border-t border-gray-200 pt-4">
+        {% if user.is_authenticated %}
+          <div class="mb-4">
+            <div class="font-medium text-gray-900">{{ name|default:user.username }}</div>
+            <div class="text-sm text-gray-500">{{ npm|default:"Student" }} - {{ class|default:"Class" }}</div>
+          </div>
+          <a id="logout-btn" href="{% url 'main:logout' %}" 
+            class="text-red-600 hover:text-red-700 font-medium transition-colors">
+            Logout
+          </a>
+        {% else %}
+          <div class="space-y-3">
+            <a href="{% url 'main:login' %}" class="block text-gray-600 hover:text-gray-900 font-medium py-3 transition-colors">
               Login
             </a>
-            <a href="{% url 'main:register' %}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-medium transition-colors">
+            <a href="{% url 'main:register' %}" class="block bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded text-center transition-colors">
               Register
             </a>
-          {% endif %}
-        </div>
-        
-        <!-- Mobile Menu Button -->
-        <div class="md:hidden flex items-center">
-          <button class="mobile-menu-button p-2 text-gray-600 hover:text-gray-900 transition-colors">
-            <span class="sr-only">Open menu</span>
-            <div class="w-6 h-6 flex flex-col justify-center items-center">
-              <span class="bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm"></span>
-              <span class="bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-0.5"></span>
-              <span class="bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm"></span>
-            </div>
-          </button>
-        </div>
+          </div>
+        {% endif %}
       </div>
     </div>
-    <!-- Mobile Menu -->
-    <div class="mobile-menu hidden md:hidden bg-white border-t border-gray-200">
-      <div class="px-6 py-4 space-y-4">
-        <!-- Mobile Navigation Links -->
-        <div class="space-y-1">
-          <a href="/" class="block text-gray-600 hover:text-gray-900 font-medium py-3 transition-colors">
-            Home
-          </a>
-          <a href="{% url 'main:create_product' %}" class="block text-gray-600 hover:text-gray-900 font-medium py-3 transition-colors">
-            Create Product
-          </a>
-        </div>
-        
-        <!-- Mobile User Section -->
-        <div class="border-t border-gray-200 pt-4">
-          {% if user.is_authenticated %}
-            <div class="mb-4">
-              <div class="font-medium text-gray-900">{{ name|default:user.username }}</div>
-              <div class="text-sm text-gray-500">{{ npm|default:"Student" }} - {{ class|default:"Class" }}</div>
-            </div>
-            <a href="{% url 'main:logout' %}" class="block text-red-600 hover:text-red-700 font-medium py-3 transition-colors">
-              Logout
-            </a>
-          {% else %}
-            <div class="space-y-3">
-              <a href="{% url 'main:login' %}" class="block text-gray-600 hover:text-gray-900 font-medium py-3 transition-colors">
-                Login
-              </a>
-              <a href="{% url 'main:register' %}" class="block bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded text-center transition-colors">
-                Register
-              </a>
-            </div>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-    <script>
-      const btn = document.querySelector("button.mobile-menu-button");
-      const menu = document.querySelector(".mobile-menu");
-    
-      btn.addEventListener("click", () => {
-        menu.classList.toggle("hidden");
+  </div>
+  <div id="toast-container" class="fixed top-5 right-5 z-50 space-y-3"></div>
+
+  <script>
+    const btn = document.querySelector("button.mobile-menu-button");
+    const menu = document.querySelector(".mobile-menu");
+
+    btn.addEventListener("click", () => {
+      menu.classList.toggle("hidden");
+    });
+
+    // Toast Helper
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const bg = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+      const icon = type === 'success'
+        ? '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>'
+        : '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>';
+
+      toast.className = `flex items-center gap-3 px-5 py-3 rounded-lg shadow-lg text-white ${bg} transition-all duration-300 transform opacity-0 translate-y-2`;
+      toast.innerHTML = `${icon}<span>${message}</span>`;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.remove('opacity-0', 'translate-y-2');
+        toast.classList.add('opacity-100', 'translate-y-0');
+      }, 50);
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 2500);
+    }
+
+    // AJAX Logout
+    const logoutBtn = document.getElementById("logout-btn");
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        try {
+          const response = await fetch(logoutBtn.href, {
+            method: "POST",
+            headers: {
+              "X-Requested-With": "XMLHttpRequest",
+              "X-CSRFToken": getCookie("csrftoken")
+            },
+          });
+
+          const data = await response.json();
+          if (data.success) {
+            showToast("Logged out successfully!", "success");
+            setTimeout(() => window.location.href = data.redirect_url, 1000);
+          } else {
+            showToast(data.message || "Logout failed", "error");
+          }
+        } catch (err) {
+          showToast("Unexpected error during logout", "error");
+        }
       });
-    </script>
-  </nav>
+    }
+
+    // Helper ambil CSRF cookie
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+  </script>
+</nav>

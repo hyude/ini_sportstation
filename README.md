@@ -353,3 +353,49 @@ Grid layout dirancang untuk layout dua dimensi yaitu baris dan kolom sekaligus. 
 17. Styling halaman daftar product dengan menambahkan `card_product.html` ke dan `no-news.png` pada `static/image` ke `base.html`. Jika belum ada product, halaman daftar product akan menampilkan gambar bahwa belum ada product yang terdaftar. Jika sudah ada, product akan ditampilkan dalam bentuk card product.
 18. Membuat navbar `navbar.html` dan styling navbar tersebut agar responsif.
 19. Cek apakah ada error atau tidak
+
+# Tugas 6
+## Apa perbedaan antara synchronous request dan asynchronous request?
+1. Synchronous Request
+    - Request dilakukan secara berurutan sehingga program hanya menunggu hingga respons diterima sebelum melanjutkan ke perintah berikutnya
+    - Ciri utamanya adalah blocking (proses lain tidak berjalan sampai request selesai)
+    - Contohnya adalah menggunakan XMLHttpRequest().
+
+2. Asynchronous Request
+    - Request dilakukan tanpa menunggu respons sehingga program dapat melanjutkan eksekusi sementara request diproses di belakang
+    - Ciri utamanya adalah non-blocking (proses lain tetap bisa berjalan)
+    - Contohnya adalah menggunakan fetch
+
+## Bagaimana AJAX bekerja di Django (alur request–response)?
+Alur request-response pada Django adalah sebagai berikut:
+1. User berinteraksi di page (misalkan membuat product baru)
+2. JavaScript mengirimkan AJAX request dengan fetch atau $.ajax()
+3. Django URL menerima request
+4. View Django memproses data dari request (biasanya JSON)
+5. Django mengembalikan HTTP Response (biasanya JsonResponse)
+6. JavaScript menerima repons dan memperbarui tampilan
+
+## Apa keuntungan menggunakan AJAX dibandingkan render biasa di Django?
+Keuntungan menggunakan AJAX di Django:
+1. Tidak perlu reload seluruh halaman karena AJAX hanya memperbarui bagian tertentu dari halaman. Akibatnya, reload lebih cepat dan user tetap di halaman yang sama.
+2. Lebih interaktif dan user-friendly
+3. Memberikan kesan real-time dan smooth
+4. Efisien dalam mengirimkan data karena data yang dikirim hanya data yang berubah sehingga hemat bandwidth
+5. Lebih fleksibel di front-end karena dapat memanipulasi DOM secara dinamis
+6. Respons server bisa dipakai ulang karena endpoint yang sama dapat digunakan untuk beberapa hal. Contohnya adalah JsonResponse yang bisa menjadi API endpoint sekaligus
+
+## Bagaimana cara memastikan keamanan saat menggunakan AJAX untuk fitur Login dan Register di Django?
+Cara memastikan keamanan saat menggunakan AJAX untuk fitur Login dan Register di Django:
+1. Memastikan request dikirim dengan protokol HTTPS (https://) bukan HTTP (http://). Request yang dikirim tanpa HTTPS dapat menyebabkan penyadapan password melalui man-in-the-middle atau CSRF token dicuri
+2. Menggunakan CSRF Token untuk request POST dengan menambahkan header CSRF di request saat mengirim data lewat AJAX
+3. Memastikan Django tidak mengembalikan data sensitif saat menggunakan JsonResponse
+4. Memvalidasi input di server (Django view)
+5. Sanitasi dan validasi input Misalnya menggunakan strip_tags untuk menghilangkan tags HTML atau DOMPurify.
+6. Jangan menyimpan password di client (localStorage, sessionStorage, cookie). Password hanya dikirim sekali langsung ke endpoint login via HTTPS
+7. Menggunakan @csrf_protect dan @login_required di Django view. @csrf_protect berfungsi untuk memastikan POST request sah dan @login_required berfungsi untuk mencegah akses ke endpoint penting tanpa login
+8. Menggunakan Django Session. Jangan menggunakan Custom Token manual
+9. Menghindari error message leakage (misalkan memberikan username atau password yang salah)
+10. Membatasi percobaan login untuk proteksi dari Brute Force
+
+## Bagaimana AJAX mempengaruhi pengalaman pengguna (User Experience) pada website?
+Overall, AJAX membuat pengalaman pengguna (User Experience/UX) menjadi lebih cepat, smooth, interaktif, tanpa reload seluruh halaman. AJAX hanya perlu me-reload sebagian halaman diperbarui, dibandingkan dengan tanpa AJAX yang perlu me-reload seluruh halaman. Akibatnya, kecepatan respon lebih cepat, tampilan lebih konsisten, interaktif secara real-time dan dinamis, serta konsumsi data lebih kecil karena hanya mengambil data JSON.

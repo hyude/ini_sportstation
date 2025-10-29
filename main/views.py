@@ -175,26 +175,38 @@ def login_user(request):
         password = request.POST.get("password")
 
         user = authenticate(request, username=username, password=password)
+        is_ajax = request.headers.get('x-requested-with') == 'XMLHttpRequest'
 
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            # AJAX request
-            if user is not None:
-                login(request, user)
-                return JsonResponse({
+        if user is not None:
+           # Ambil waktu login sebelumnya
+            prev_login_str = "Never"
+            if user.last_login:
+                prev_login_str = user.last_login.strftime("%Y-%m-%d %H:%M:%S")
+            
+            # Login
+            login(request, user)
+
+            # Respons sesuai AJAX atau redirect
+            if is_ajax:
+                response = JsonResponse({
                     "success": True,
                     "message": f"Welcome back, {user.username}!",
-                    "redirect_url": "/"  # ubah ke dashboard/home sesuai kebutuhan
+                    "redirect_url": "/"
                 })
             else:
+                response = redirect('/')
+            
+            # Atur cookie di response dan return
+            response.set_cookie('last_login', prev_login_str)
+            return response
+        
+        else:
+            # Login gagal
+            if is_ajax:
                 return JsonResponse({
                     "success": False,
                     "message": "Invalid username or password."
                 })
-        else:
-            # Regular (non-AJAX) fallback
-            if user is not None:
-                login(request, user)
-                return redirect('/')
             else:
                 messages.error(request, "Invalid username or password.")
                 return render(request, "login.html")
@@ -271,6 +283,7 @@ def delete_product(request, id):
 @require_POST
 def add_product_entry_ajax(request):
     name = strip_tags(request.POST.get("name")) # strip HTML tags!
+    price = strip_tags(request.POST.get("price"))
     description = strip_tags(request.POST.get("description")) # strip HTML tags!
     category = request.POST.get("category")
     thumbnail = request.POST.get("thumbnail")
@@ -279,6 +292,7 @@ def add_product_entry_ajax(request):
 
     new_product = Product(
         name=name, 
+        price=price,
         description=description,
         category=category,
         thumbnail=thumbnail,
@@ -297,4 +311,7 @@ def get_product_json(request, id):
         "name": product.name,
         "price": product.price,
         "description": product.description,
+        "category": product.category,
+        "thumbnail": product.thumbnail,
+        "is_featured": product.is_featured
     })

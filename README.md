@@ -399,3 +399,22 @@ Cara memastikan keamanan saat menggunakan AJAX untuk fitur Login dan Register di
 
 ## Bagaimana AJAX mempengaruhi pengalaman pengguna (User Experience) pada website?
 Overall, AJAX membuat pengalaman pengguna (User Experience/UX) menjadi lebih cepat, smooth, interaktif, tanpa reload seluruh halaman. AJAX hanya perlu me-reload sebagian halaman diperbarui, dibandingkan dengan tanpa AJAX yang perlu me-reload seluruh halaman. Akibatnya, kecepatan respon lebih cepat, tampilan lebih konsisten, interaktif secara real-time dan dinamis, serta konsumsi data lebih kecil karena hanya mengambil data JSON.
+
+## Implementasi Tugas
+1. CRUD Product menggunakan AJAX:
+- Menambahkan di views:
+    - add_product_entry_ajax()
+    - edit_product()
+    - delete_product()
+- Menambahkan di urls:
+    - path untuk add_product_entry_ajax()
+- Menambahkan AJAX di:
+    - modal.html
+    - main.html
+
+2. Login dan register menggunakan AJAX:
+- Menambahkan di views:
+    - AJAX dengan is_ajax pada register
+    - AJAX dengan cek headers pada login_user
+- Menambahkan AJAX di:
+    - login.html

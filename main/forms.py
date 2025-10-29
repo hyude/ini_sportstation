@@ -10,7 +10,6 @@ class ProductForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Buat field lain jadi optional
-        self.fields['category'].required = False
         self.fields['thumbnail'].required = False
         self.fields['is_featured'].required = False
 
